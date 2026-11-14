@@ -21,8 +21,10 @@ class IconLoader(private val pm: PackageManager, density: Float) {
     private val executor: ExecutorService = Executors.newSingleThreadExecutor()
     private val main = Handler(Looper.getMainLooper())
     // Square icons are inset inside the 16:9 tile so they do not look oversized
-    // next to app banners. Banners still fill the tile completely.
+    // next to app banners. Banners get their own inset so all artwork can be
+    // scaled down by the same amount.
     private val iconPadding = (ICON_PADDING_DP * density).toInt()
+    private val bannerPadding = (BANNER_PADDING_DP * density).toInt()
 
     fun load(item: AppItem, view: ImageView) {
         view.tag = item.key
@@ -62,19 +64,20 @@ class IconLoader(private val pm: PackageManager, density: Float) {
     }
 
     private fun show(view: ImageView, loaded: Loaded) {
-        if (loaded.isBanner) {
-            view.scaleType = ImageView.ScaleType.CENTER_CROP
-            view.setPadding(0, 0, 0, 0)
-        } else {
-            view.scaleType = ImageView.ScaleType.FIT_CENTER
-            view.setPadding(iconPadding, iconPadding, iconPadding, iconPadding)
-        }
+        // Artwork is always scaled down inside the tile, never cropped.
+        // A banner would otherwise fill the tile completely, so it gets its own
+        // inset; square icons need a larger one to shrink by the same amount.
+        val pad = if (loaded.isBanner) bannerPadding else iconPadding
+        view.scaleType = ImageView.ScaleType.FIT_CENTER
+        view.setPadding(pad, pad, pad, pad)
         view.setImageDrawable(loaded.drawable)
     }
 
     private companion object {
         const val CACHE_SIZE = 48
-        // Was 22dp; a little extra breathing room makes square icons read smaller.
-        const val ICON_PADDING_DP = 28
+        // Tiles are about 112dp tall. 28dp inset halves a banner that used to
+        // fill the tile; 42dp halves a square icon that already had a 28dp inset.
+        const val BANNER_PADDING_DP = 28
+        const val ICON_PADDING_DP = 42
     }
 }
