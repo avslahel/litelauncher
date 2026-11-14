@@ -20,7 +20,9 @@ class IconLoader(private val pm: PackageManager, density: Float) {
     private val cache = LruCache<String, Loaded>(CACHE_SIZE)
     private val executor: ExecutorService = Executors.newSingleThreadExecutor()
     private val main = Handler(Looper.getMainLooper())
-    private val iconPadding = (22 * density).toInt()
+    // Square icons are inset inside the 16:9 tile so they do not look oversized
+    // next to app banners. Banners still fill the tile completely.
+    private val iconPadding = (ICON_PADDING_DP * density).toInt()
 
     fun load(item: AppItem, view: ImageView) {
         view.tag = item.key
@@ -72,5 +74,7 @@ class IconLoader(private val pm: PackageManager, density: Float) {
 
     private companion object {
         const val CACHE_SIZE = 48
+        // Was 22dp; a little extra breathing room makes square icons read smaller.
+        const val ICON_PADDING_DP = 28
     }
 }
