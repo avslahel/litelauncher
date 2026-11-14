@@ -25,6 +25,17 @@ services. It shows your apps, the time, and live **RAM** and **internal storage*
 For a smaller, faster build, choose the **release** variant (Build > Select Build Variant). It is shrunk
 with R8 and signed with the debug key, so it installs without creating a keystore.
 
+### Build in the cloud with GitHub Actions
+
+Every push to `main` runs `.github/workflows/build-apk.yml`. It builds the debug APK on GitHub's
+servers, so you do not need Android Studio or an SDK on your PC:
+
+1. Open the repo's **Actions** tab and select the latest **Build Lite Launcher APK** run.
+2. Download the **LiteLauncher-debug-apk** artifact (GitHub gives you a `.zip`).
+3. Unzip it to get `app-debug.apk`, then install it as shown below.
+
+You can also start a build by hand: **Actions > Build Lite Launcher APK > Run workflow**.
+
 ## Install on the TV
 
 1. On the TV: **Settings > Device Preferences > About**, tap **Build** 7 times to enable Developer options.

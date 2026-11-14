@@ -198,8 +198,7 @@ class MainActivity : Activity() {
                 result.add(
                     AppItem(
                         label = info.loadLabel(pm).toString(),
-                        component = ComponentName(pkg, activity.name),
-                        hasBanner = activity.bannerResource != 0
+                        component = ComponentName(pkg, activity.name)
                     )
                 )
             }

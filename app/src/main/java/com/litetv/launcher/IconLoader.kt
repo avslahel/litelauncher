@@ -46,7 +46,10 @@ class IconLoader(private val pm: PackageManager, density: Float) {
     }
 
     private fun fetch(item: AppItem): Loaded? = try {
-        val banner = if (item.hasBanner) pm.getActivityBanner(item.component) else null
+        // Some TV apps declare the banner on the activity, others on <application>.
+        // getActivityBanner only reads the activity, so fall back to the app banner.
+        val banner = pm.getActivityBanner(item.component)
+            ?: pm.getApplicationBanner(item.component.packageName)
         if (banner != null) {
             Loaded(banner, true)
         } else {
