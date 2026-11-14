@@ -102,7 +102,7 @@ class AppAdapter(
         val item = items[position]
         holder.label.text = item.label
         holder.pin.visibility = if (item.key in pinned) View.VISIBLE else View.GONE
-        loader.load(item, holder.icon)
+        loader.load(item, holder.icon, holder.card.layoutParams.height)
     }
 
     override fun onViewRecycled(holder: VH) {
