@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:clipChildren="false"
+    android:focusable="true"
+    android:longClickable="true"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <!-- Height is set in code to keep a 16:9 ratio for any screen size. -->
+    <FrameLayout
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/tile_bg"
+        android:clipToOutline="true"
+        android:duplicateParentState="true"
+        android:foreground="@drawable/tile_fg">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:id="@+id/pin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:layout_margin="6dp"
+            android:text="★"
+            android:textColor="#FFD54F"
+            android:textSize="14sp"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:maxLines="1"
+        android:textColor="@color/text_primary"
+        android:textSize="13sp" />
+</LinearLayout>

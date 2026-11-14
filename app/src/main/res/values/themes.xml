@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The gradient window background means no white flash while the launcher starts. -->
+    <style name="Theme.LiteLauncher" parent="@android:style/Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@drawable/bg_gradient</item>
+        <item name="android:colorBackground">@color/bg_top</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+</resources>

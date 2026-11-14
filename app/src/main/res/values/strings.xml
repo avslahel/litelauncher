@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lite Launcher</string>
+    <string name="ram">RAM</string>
+    <string name="storage">Storage</string>
+    <string name="clean_ram">Clean RAM</string>
+    <string name="settings">Settings</string>
+    <string name="usage_mb">%1$d / %2$d MB</string>
+    <string name="usage_gb">%1$.1f / %2$.1f GB</string>
+    <string name="pinned">Pinned %1$s</string>
+    <string name="unpinned">Unpinned %1$s</string>
+    <string name="freed">Freed about %1$d MB</string>
+    <string name="cant_open">Can\'t open %1$s</string>
+    <string name="cant_open_settings">Can\'t open Settings</string>
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 320x180 TV banner: a simple 3x2 grid of tiles. Replace with your own artwork if you like. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="320dp"
+    android:height="180dp"
+    android:viewportWidth="320"
+    android:viewportHeight="180">
+    <path
+        android:fillColor="#10141C"
+        android:pathData="M0,0h320v180h-320z" />
+    <path
+        android:fillColor="#3DDC97"
+        android:pathData="M82,54h44v30h-44z" />
+    <path
+        android:fillColor="#2B3446"
+        android:pathData="M138,54h44v30h-44z M194,54h44v30h-44z M82,96h44v30h-44z M138,96h44v30h-44z M194,96h44v30h-44z" />
+</vector>
