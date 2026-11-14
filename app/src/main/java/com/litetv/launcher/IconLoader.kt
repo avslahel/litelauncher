@@ -13,22 +13,21 @@ import java.util.concurrent.Executors
  * Loads app banners/icons off the main thread, only for tiles that are actually shown,
  * and keeps a small cache. This keeps memory low and scrolling smooth on weak TV hardware.
  */
-class IconLoader(private val pm: PackageManager, density: Float) {
+class IconLoader(private val pm: PackageManager) {
 
     private class Loaded(val drawable: Drawable, val isBanner: Boolean)
 
     private val cache = LruCache<String, Loaded>(CACHE_SIZE)
     private val executor: ExecutorService = Executors.newSingleThreadExecutor()
     private val main = Handler(Looper.getMainLooper())
-    // Square icons are inset inside the 16:9 tile so they do not look oversized
-    // next to app banners. Banners still fill the tile completely.
-    private val iconPadding = (ICON_PADDING_DP * density).toInt()
 
-    fun load(item: AppItem, view: ImageView) {
+    // Square icons are inset relative to the tile height so they keep the same
+    // proportion whatever the tile size. Banners fill the tile completely.
+    fun load(item: AppItem, view: ImageView, tileHeightPx: Int) {
         view.tag = item.key
         val hit = cache.get(item.key)
         if (hit != null) {
-            show(view, hit)
+            show(view, hit, tileHeightPx)
             return
         }
         view.setImageDrawable(null)
@@ -37,7 +36,7 @@ class IconLoader(private val pm: PackageManager, density: Float) {
             cache.put(item.key, loaded)
             main.post {
                 // The view may have been recycled for another app in the meantime.
-                if (view.tag == item.key) show(view, loaded)
+                if (view.tag == item.key) show(view, loaded, tileHeightPx)
             }
         }
     }
@@ -61,23 +60,24 @@ class IconLoader(private val pm: PackageManager, density: Float) {
         null
     }
 
-    private fun show(view: ImageView, loaded: Loaded) {
+    private fun show(view: ImageView, loaded: Loaded, tileHeightPx: Int) {
         if (loaded.isBanner) {
-            // Banners are already 16:9 artwork, so let them fill the tile edge to edge.
+            // Banners are 16:9 artwork, so they fill the tile edge to edge.
             view.scaleType = ImageView.ScaleType.CENTER_CROP
             view.setPadding(0, 0, 0, 0)
         } else {
-            // Square icons are inset so they do not look oversized next to banners.
+            // Square icons take about half the tile height, leaving a margin that
+            // scales with the tile so small tiles stay readable.
             view.scaleType = ImageView.ScaleType.FIT_CENTER
-            view.setPadding(iconPadding, iconPadding, iconPadding, iconPadding)
+            val pad = (tileHeightPx * ICON_INSET_FRACTION).toInt()
+            view.setPadding(pad, pad, pad, pad)
         }
         view.setImageDrawable(loaded.drawable)
     }
 
     private companion object {
         const val CACHE_SIZE = 48
-        // A tile is about 112dp tall; 42dp leaves the icon roughly half the size
-        // it had at the old 22dp inset. Banners are unaffected and stay full-bleed.
-        const val ICON_PADDING_DP = 42
+        // Icon artwork occupies half the tile height: 0.25 inset on each side.
+        const val ICON_INSET_FRACTION = 0.25f
     }
 }

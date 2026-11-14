@@ -144,7 +144,7 @@ class MainActivity : Activity() {
         val prefs = getSharedPreferences(PREFS, MODE_PRIVATE)
         val pinned = prefs.getStringSet(KEY_PINNED, null)?.toMutableSet() ?: mutableSetOf()
 
-        iconLoader = IconLoader(packageManager, density)
+        iconLoader = IconLoader(packageManager)
         adapter = AppAdapter(
             cellWidthPx = gridWidth / span,
             loader = iconLoader,
@@ -368,7 +368,7 @@ class MainActivity : Activity() {
         const val PREFS = "launcher"
         const val KEY_PINNED = "pinned"
         const val STATS_INTERVAL_MS = 3000L
-        const val TARGET_TILE_DP = 200
+        const val TARGET_TILE_DP = 100
 
         val COLOR_OK = Color.parseColor("#3DDC97")
         val COLOR_WARNING = Color.parseColor("#FFB020")
